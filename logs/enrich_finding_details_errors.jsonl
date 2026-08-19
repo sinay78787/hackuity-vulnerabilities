@@ -1,0 +1,5 @@
+{"findingId": "1xhQYnqaueQC", "assetId": null, "timestamp": "2026-07-31T09:02:19.950387+00:00", "httpStatus": null, "errorType": "network_error", "message": "SSLError", "retryCount": 6}
+{"findingId": "1xhQYnqaueQC", "assetId": null, "timestamp": "2026-07-31T09:17:26.166754+00:00", "httpStatus": null, "errorType": "network_error", "message": "SSLError", "retryCount": 6}
+{"findingId": "cjISzp4d0krl", "assetId": null, "timestamp": "2026-07-31T09:17:54.198473+00:00", "httpStatus": null, "errorType": "network_error", "message": "SSLError", "retryCount": 6}
+{"findingId": "1xhQYnqaueQC", "assetId": null, "timestamp": "2026-07-31T09:21:33.134512+00:00", "httpStatus": null, "errorType": "network_error", "message": "ProxyError", "retryCount": 3}
+{"findingId": "yH8XL4wGKEMF", "assetId": "erG7UYIH2CPM", "timestamp": "2026-08-19T06:26:30.263559+00:00", "httpStatus": null, "errorType": "network_error", "message": "ConnectionError", "retryCount": 6}

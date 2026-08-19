@@ -1,0 +1,59 @@
+[
+  {
+    "assetId": "3tvacIKn7T7d",
+    "name": "bycvsrv1054.bycn.bouygues-construction.com",
+    "type": "DOMAIN",
+    "state": "DEFAULT",
+    "ips": [
+      "10.71.47.73"
+    ],
+    "os": "Microsoft Windows Server 2016 1607",
+    "osPlatform": "Windows",
+    "hyScoreV2": 909,
+    "cvssBase": 9.9,
+    "providers": [
+      "CROWDSTRIKE_FALCON",
+      "HACKUITY",
+      "QUALYS_VM"
+    ],
+    "lastSeenAt": "2026-07-29T11:00:00.074Z"
+  },
+  {
+    "assetId": "EUwUUbtBESll",
+    "name": "bcnvsrv3344.bouygues-construction.com",
+    "type": "DOMAIN",
+    "state": "DEFAULT",
+    "ips": [
+      "10.96.248.185"
+    ],
+    "os": "Red Hat Enterprise Linux 8.10",
+    "osPlatform": "Linux",
+    "hyScoreV2": 909,
+    "cvssBase": 10.0,
+    "providers": [
+      "CROWDSTRIKE_FALCON",
+      "HACKUITY",
+      "QUALYS_VM"
+    ],
+    "lastSeenAt": "2026-07-29T13:26:00.035Z"
+  },
+  {
+    "assetId": "fbfJTklRJHGY",
+    "name": "bycvweb013.bycn.bouygues-construction.com",
+    "type": "DOMAIN",
+    "state": "DEFAULT",
+    "ips": [
+      "10.34.193.106"
+    ],
+    "os": null,
+    "osPlatform": null,
+    "hyScoreV2": 0,
+    "cvssBase": 0.0,
+    "providers": [
+      "CROWDSTRIKE_FALCON",
+      "HACKUITY",
+      "QUALYS_VM"
+    ],
+    "lastSeenAt": "2026-07-29T09:09:39.111Z"
+  }
+]
