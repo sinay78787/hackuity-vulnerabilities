@@ -1,0 +1,32 @@
+{
+  "findingId": "finding-example",
+  "assetId": "asset-example",
+  "hostname": "host.example",
+  "status": "OPEN",
+  "extractedAt": "2026-07-31T10:00:00+00:00",
+  "sourceEndpoint": "/api/v1/namespaces/example/findings/finding-example",
+  "data": {
+    "findingId": "finding-example",
+    "assetId": "asset-example",
+    "providerId": "QUALYS_VM",
+    "environmental": 8.2,
+    "temporal": 8.2,
+    "hyScoreV2": 499,
+    "effectiveScoreInfo": {
+      "cvss31Base": {"AV":"N","AC":"H","PR":"N","UI":"N","S":"C","C":"H","I":"H","A":"H"},
+      "cvss31Temp": {"E":"U"},
+      "hyScoreMetrics": {"FINDING_EPSS":40,"FINDING_EXPLOITABILITY":0,"FINDING_EXPLOIT_MATURITY":0,"FINDING_THREAT_INTENSITY":0}
+    },
+    "sharedDetailsLocal": {
+      "assessmentName": "Assessment anonymisé",
+      "extendedAttributesList": [
+        {"type":"commonVulnerabilityExposure","id":"CVE-2025-12345","description":"Description A","references":"[{\"name\":\"NVD\",\"url\":\"https://example.test/cve\"}]"},
+        {"type":"commonVulnerabilityExposure","id":"CVE-2024-9999","description":"Description B","references":"not-json"}
+      ],
+      "i18n": {"en":{"content":{"children":[
+        {"children":[{"text":"Qualys VM details for \"Office component\" (QID 110261)","type":"raw"}]},
+        {"children":[{"text":"HKLM\\SOFTWARE\\Vendor\\Product LastProduct = 12.0.6612.1000\n%ProgramFiles(x86)%\\Vendor\\MSO.dll Version is 12.0.6607.1000","type":"raw"}]}
+      ]}}}
+    }
+  }
+}

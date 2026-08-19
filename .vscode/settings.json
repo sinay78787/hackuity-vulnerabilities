@@ -1,0 +1,8 @@
+{
+    "chat.tools.terminal.autoApprove": {
+        "/^cd \"C:\\\\Users\\\\y\\.krabchi\\\\OneDrive - BYCN\\\\Documents\\\\PERSO\\\\Hackuity\"; pytest -q tests/test_core\\.py$/": {
+            "approve": true,
+            "matchCommandLine": true
+        }
+    }
+}

@@ -1,0 +1,67 @@
+{
+  "findingId": "golden-finding",
+  "assetId": "golden-asset",
+  "extractedAt": "2026-04-01T11:00:00Z",
+  "sourceEndpoint": "/api/v1/namespaces/fixture/findings/golden-finding?withActiveProviderInfos=true",
+  "data": {
+    "assetId": "golden-asset",
+    "searchFinding": {
+      "assetEffectiveName": "server.example.test",
+      "mitreAttackTtps": ["T1059"]
+    },
+    "assessmentsRelated": {
+      "activeFindingProviderInfos": [
+        {
+          "assessmentId": "assessment-1",
+          "providerId": "QUALYS_VM",
+          "extendedAttributesList": [
+            {"type": "commonVulnerabilityExposure", "id": "CVE-2019-17531"},
+            {"qid": "981964"}
+          ],
+          "technicalDetails": {
+            "components": [
+              {
+                "package": "com.fasterxml.jackson.core:jackson-databind",
+                "installedVersion": "2.9.5",
+                "requiredVersion": "2.9.10.1",
+                "language": "Java",
+                "installPath": "/srv/app1/WEB-INF/lib/jackson-databind.jar"
+              },
+              {
+                "package": "com.fasterxml.jackson.core:jackson-databind",
+                "installedVersion": "2.9.5",
+                "requiredVersion": "2.9.10.1",
+                "language": "Java",
+                "installPath": "/srv/app2/WEB-INF/lib/jackson-databind.jar"
+              }
+            ]
+          },
+          "sharedDetailsLocal": {
+            "i18n": {"en": {"content": {"text": "Qualys VM details for Java Security Update (QID 981964)"}}}
+          }
+        }
+      ],
+      "findingAuditHistory": {
+        "info": {
+          "atomInfos": [
+            {
+              "at": "2026-01-28T06:17:00Z",
+              "auditId": "evt-1",
+              "trigger": "HUMAN__NEW_ASSESSMENT",
+              "assessmentType": "VULNERABILITY_SCAN",
+              "providerId": "QUALYS_VM",
+              "declaredFindingStatus": {"subState": "CONFIRMED"},
+              "userId": "INTERNAL"
+            },
+            {
+              "at": "2026-04-01T10:54:00Z",
+              "auditId": "evt-2",
+              "trigger": "ASSET_INDICATORS_CHANGED",
+              "userId": "INTERNAL"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

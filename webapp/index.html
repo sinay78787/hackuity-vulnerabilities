@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Hackuity Exposure Center</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#overview" aria-label="Hackuity Exposure Center">
+        <span class="brand-mark">H</span>
+        <span><strong>Hackuity</strong><small>Exposure Center</small></span>
+      </a>
+      <nav>
+        <button class="nav-item active" data-view="overview"><span>⌁</span>Vue générale</button>
+        <button class="nav-item" data-view="servers"><span>▣</span>Serveurs</button>
+        <button class="nav-item" data-view="assets"><span>▦</span>Assets</button>
+        <button class="nav-item" data-view="findings"><span>◇</span>Findings critiques</button>
+        <button class="nav-item" data-view="cves"><span>◎</span>CVE</button>
+        <button class="nav-item" data-view="remediation"><span>✓</span>Remédiation</button>
+        <button class="nav-item" data-view="catalog"><span>⌘</span>Catalogue des données</button>
+      </nav>
+      <div class="sidebar-foot">
+        <span class="status-dot"></span>
+        <div><strong>Données locales</strong><small id="dataSource">Chargement…</small></div>
+      </div>
+    </aside>
+
+    <main>
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">CYBER EXPOSURE MANAGEMENT</p>
+          <h1 id="pageTitle">Vue générale</h1>
+        </div>
+        <div class="top-actions">
+          <label class="global-search">
+            <span>⌕</span>
+            <input id="globalSearch" type="search" placeholder="Hostname, asset ID, CVE…" autocomplete="off">
+            <kbd>⌘ K</kbd>
+          </label>
+          <button class="icon-button" id="themeButton" aria-label="Changer de thème">◐</button>
+          <div class="avatar">YK</div>
+        </div>
+      </header>
+      <section class="scope-bar" aria-label="Filtres globaux">
+        <div class="scope-heading">
+          <span>⌁</span>
+          <div><strong>Périmètre d’analyse</strong><small>Tous les écrans suivent ce contexte</small></div>
+        </div>
+        <label><small>PÉRIMÈTRE</small><select id="globalPerimeter"><option value="">Tous les périmètres</option></select></label>
+        <label><small>PROVIDER</small><select id="globalProvider"><option value="">Tous les providers</option></select></label>
+        <label><small>NIVEAU DE RISQUE</small><select id="globalRisk"><option value="">Tous les niveaux</option><option value="critical">Critique · TRS ≥ 900</option><option value="high">Élevé · TRS 700–899</option><option value="medium">Modéré · TRS 400–699</option><option value="low">Faible · TRS &lt; 400</option></select></label>
+        <label class="switch-filter"><input id="globalKev" type="checkbox"><span></span><div><small>CISA KEV</small><strong>Exploitées connues</strong></div></label>
+        <button class="reset-filters" id="resetFilters">Réinitialiser</button>
+        <div class="scope-result"><strong id="scopeAssetCount">—</strong><small>assets dans le scope</small></div>
+      </section>
+      <section class="smart-presets">
+        <span>Vues intelligentes</span>
+        <button data-preset="critical">🔥 Crise · TRS ≥ 900</button>
+        <button data-preset="kev">⚡ CISA KEV</button>
+        <button data-preset="qualys">◉ Qualys VM</button>
+        <button data-preset="crowdstrike">● CrowdStrike</button>
+        <button data-preset="all" class="active">Vue complète</button>
+      </section>
+
+      <section class="view active" id="overview">
+        <div class="hero">
+          <div>
+            <p class="eyebrow">POSTURE DE SÉCURITÉ</p>
+            <h2>Priorisez ce qui compte.<br><span>Réduisez l’exposition.</span></h2>
+            <p>Une lecture opérationnelle des assets, vulnérabilités et actions de remédiation.</p>
+          </div>
+          <div class="risk-score">
+            <div class="score-ring" id="scoreRing"><span id="riskScore">—</span><small>RISK SCORE</small></div>
+            <div><strong id="riskLabel">Calcul…</strong><small>Basé sur le TRS maximum observé</small></div>
+          </div>
+        </div>
+
+        <div class="kpi-grid">
+          <article class="kpi"><span class="kpi-icon violet">▦</span><div><small>ASSETS EXPOSÉS</small><strong id="kpiAssets">—</strong><em id="kpiAssetsMeta">—</em></div></article>
+          <article class="kpi"><span class="kpi-icon red">◇</span><div><small>FINDINGS CRITIQUES</small><strong id="kpiCritical">—</strong><em>TRS ≥ 900</em></div></article>
+          <article class="kpi"><span class="kpi-icon orange">◎</span><div><small>CVE UNIQUES</small><strong id="kpiCves">—</strong><em id="kpiCvesMeta">—</em></div></article>
+          <article class="kpi"><span class="kpi-icon green">✓</span><div><small>PLANS DE REMÉDIATION</small><strong id="kpiRemediations">—</strong><em id="kpiRemediationMeta">—</em></div></article>
+        </div>
+        <div class="insight-strip" id="insightStrip"></div>
+
+        <div class="dashboard-grid">
+          <article class="panel span-2">
+            <div class="panel-head"><div><small>EXPOSITION</small><h3>Distribution du risque</h3></div><span class="pill">TRS</span></div>
+            <div class="chart-wrap"><canvas id="riskChart" height="245"></canvas></div>
+          </article>
+          <article class="panel">
+            <div class="panel-head"><div><small>CRITICITÉ</small><h3>Findings par niveau</h3></div></div>
+            <div class="donut-layout">
+              <canvas id="severityChart" width="180" height="180"></canvas>
+              <div class="legend" id="severityLegend"></div>
+            </div>
+          </article>
+          <article class="panel span-2">
+            <div class="panel-head"><div><small>PRIORITÉS</small><h3>Assets les plus exposés</h3></div><button class="text-button" data-go="assets">Voir tous →</button></div>
+            <div class="table-scroll"><table><thead><tr><th>Asset</th><th>OS</th><th>Findings</th><th>Critiques</th><th>TRS max</th><th>Risque</th></tr></thead><tbody id="topAssetsBody"></tbody></table></div>
+          </article>
+          <article class="panel">
+            <div class="panel-head"><div><small>ACTIONS</small><h3>Remédiations prioritaires</h3></div></div>
+            <div class="action-list" id="remediationActions"></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="view" id="servers">
+        <div class="server-command">
+          <div>
+            <p class="eyebrow">SERVER EXPOSURE EXPLORER</p>
+            <h2>Analyse par serveur</h2>
+            <p>Sélectionnez un serveur pour isoler son exposition, ses CVE et les actions à mener.</p>
+          </div>
+          <label class="server-picker">
+            <span>Serveur analysé</span>
+            <select id="serverSelect"></select>
+          </label>
+        </div>
+        <div class="server-profile" id="serverProfile">
+          <div class="server-identity">
+            <div class="server-icon">▣</div>
+            <div><small>HOSTNAME</small><h3 id="serverHostname">—</h3><p><span id="serverIp">—</span><i></i><span id="serverOs">—</span></p></div>
+            <div id="serverRiskBadge"></div>
+          </div>
+          <div class="server-kpis">
+            <div><small>TRS MAX</small><strong id="serverTrs">—</strong></div>
+            <div><small>FINDINGS OUVERTS</small><strong id="serverOpen">—</strong></div>
+            <div><small>CRITIQUES</small><strong id="serverCritical">—</strong></div>
+            <div><small>CVSS MAX</small><strong id="serverCvss">—</strong></div>
+            <div><small>ANCIENNETÉ MAX</small><strong id="serverAge">—</strong></div>
+          </div>
+        </div>
+        <div class="dashboard-grid server-grid">
+          <article class="panel span-2">
+            <div class="panel-head"><div><small>VULNÉRABILITÉS</small><h3>Findings du serveur</h3></div><div class="filters compact"><select id="serverSeverityFilter"><option value="">Toutes sévérités</option></select><input id="serverFindingSearch" type="search" placeholder="CVE ou finding…"></div></div>
+            <div class="table-scroll"><table><thead><tr><th>Finding</th><th>CVE</th><th>Sévérité</th><th>TRS</th><th>CVSS</th><th>Provider</th><th>Dernière vue</th></tr></thead><tbody id="serverFindingsBody"></tbody></table></div>
+            <div class="empty-state" id="serverFindingsEmpty">Aucun finding critique disponible pour ce serveur dans l’échantillon.</div>
+          </article>
+          <article class="panel">
+            <div class="panel-head"><div><small>PROFIL</small><h3>Contexte technique</h3></div></div>
+            <dl class="detail-list" id="serverDetails"></dl>
+          </article>
+          <article class="panel span-2">
+            <div class="panel-head"><div><small>REMÉDIATION</small><h3>Actions recommandées</h3></div></div>
+            <div class="server-remediation-list" id="serverRemediations"></div>
+          </article>
+          <article class="panel">
+            <div class="panel-head"><div><small>RISQUE</small><h3>Positionnement</h3></div></div>
+            <div class="gauge-wrap"><canvas id="serverGauge" width="280" height="170"></canvas><p id="serverGaugeText"></p></div>
+          </article>
+        </div>
+      </section>
+
+      <section class="view" id="assets">
+        <div class="section-toolbar">
+          <div class="filters">
+            <select id="assetRiskFilter"><option value="">Tous les risques</option><option value="critical">Critique</option><option value="high">Élevé</option><option value="medium">Modéré</option></select>
+            <select id="assetOsFilter"><option value="">Tous les OS</option></select>
+            <input id="assetMinFindings" type="number" min="0" value="0" aria-label="Nombre minimum de findings" placeholder="Findings min.">
+            <select id="assetSort"><option value="trs">TRS décroissant</option><option value="findings">Plus de findings</option><option value="critical">Plus de critiques</option><option value="hostname">Hostname A–Z</option></select>
+          </div>
+          <span class="result-count" id="assetCount"></span>
+        </div>
+        <article class="panel"><div class="table-scroll"><table><thead><tr><th>Hostname</th><th>IP</th><th>OS</th><th>Findings</th><th>Critiques</th><th>Top CVE</th><th>TRS</th><th>Dernière vue</th><th></th></tr></thead><tbody id="assetsBody"></tbody></table></div></article>
+      </section>
+
+      <section class="view" id="findings">
+        <div class="section-toolbar"><div class="filters"><select id="findingServerFilter"><option value="">Tous les serveurs</option></select><select id="findingSeverityFilter"><option value="">Toutes sévérités</option></select><select id="findingProviderFilter"><option value="">Tous les providers</option></select><input id="findingMinTrs" type="number" min="0" max="1000" value="900" aria-label="TRS minimum"></div><span class="result-count" id="findingCount"></span></div>
+        <article class="panel"><div class="table-scroll"><table><thead><tr><th>Finding</th><th>Asset</th><th>CVE</th><th>Sévérité</th><th>TRS</th><th>CVSS</th><th>Provider</th><th>État</th></tr></thead><tbody id="findingsBody"></tbody></table></div></article>
+      </section>
+
+      <section class="view" id="cves">
+        <div class="section-toolbar"><div class="filters"><select id="cveSeverityFilter"><option value="">Toutes sévérités</option></select><input id="cveMinCvss" type="number" min="0" max="10" step=".1" value="0" placeholder="CVSS min."><input id="cveMinAssets" type="number" min="0" value="0" placeholder="Assets min."><select id="cveSort"><option value="trs">TRS décroissant</option><option value="assets">Assets affectés</option><option value="cvss">CVSS décroissant</option></select></div><span class="result-count" id="cveCount"></span></div>
+        <div class="card-list" id="cveCards"></div>
+      </section>
+
+      <section class="view" id="remediation">
+        <div class="section-toolbar"><div class="filters"><select id="priorityFilter"><option value="">Toutes priorités</option><option>P1</option><option>P2</option><option>P3</option></select></div><span class="result-count" id="remediationCount"></span></div>
+        <div class="card-list" id="remediationCards"></div>
+      </section>
+
+      <section class="view" id="catalog">
+        <div class="catalog-hero">
+          <div><p class="eyebrow">DATA LINEAGE & DICTIONNAIRE</p><h2>Toutes les données, jusqu’au fichier source.</h2><p>Inventaire généré depuis le projet : chemins exacts, formats, volumes et colonnes disponibles.</p></div>
+          <div class="catalog-stats"><div><strong id="catalogFiles">—</strong><small>FICHIERS</small></div><div><strong id="catalogRows">—</strong><small>LIGNES PARQUET</small></div><div><strong id="catalogSize">—</strong><small>VOLUME TOTAL</small></div></div>
+        </div>
+        <div class="lineage"><span>Sources JSON</span><i>→</i><span>Bronze · brut</span><i>→</i><span>Silver · normalisé</span><i>→</i><span>Gold · métier</span><i>→</i><span>Dashboard / Excel</span></div>
+        <div class="section-toolbar catalog-toolbar"><div class="filters"><input id="catalogSearch" type="search" placeholder="Rechercher un fichier, chemin ou champ…"><select id="catalogLayer"><option value="">Toutes les couches</option><option value="source">Sources</option><option value="bronze">Bronze</option><option value="silver">Silver</option><option value="gold">Gold</option><option value="exports">Exports</option></select></div><span class="result-count" id="catalogCount"></span></div>
+        <div class="catalog-list" id="catalogList"></div>
+        <article class="panel catalog-guide"><div class="panel-head"><div><small>REPÈRES</small><h3>Chemins structurants du projet</h3></div></div><div class="path-grid"><code>hackuity_all_open_findings.json</code><span>Export brut complet des findings ouverts</span><code>output/bronze/</code><span>Données brutes enrichies et mises en cache</span><code>output/silver/</code><span>Tables normalisées : assets, findings, CVE, références et preuves</span><code>output/gold/</code><span>Tables agrégées utilisées par le dashboard</span><code>exports/</code><span>Classeurs Excel complets et synthétiques</span><code>webapp/data/dashboard-data.js</code><span>Bundle autonome chargé par cette interface</span></div></article>
+      </section>
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status"></div>
+  <aside class="detail-drawer" id="detailDrawer" aria-hidden="true">
+    <button class="drawer-close" id="drawerClose" aria-label="Fermer">×</button>
+    <div id="drawerContent"></div>
+  </aside>
+  <div class="drawer-backdrop" id="drawerBackdrop"></div>
+  <script src="data/dashboard-data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

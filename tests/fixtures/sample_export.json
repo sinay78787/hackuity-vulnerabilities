@@ -1,0 +1,26 @@
+[
+  {
+    "assetId": "asset-1",
+    "hostname": "host.example",
+    "score": 950,
+    "findings": {
+      "count": 2,
+      "searchFindings": [
+        {
+          "assetId": "asset-1",
+          "findingId": "finding-1",
+          "assetOsPrimary": "Windows",
+          "findingStatus": {"status": "OPEN", "score": {"hyScoreV2": 950}},
+          "metrics": {"cvss": {"score": 9.8, "vector": "CVSS:3.1/..."}},
+          "references": ["CVE-2025-12345"],
+          "findingLocation": {"port": 443, "protocol": "tcp", "service": "https"}
+        },
+        {
+          "assetId": "asset-1",
+          "findingId": "finding-2",
+          "findingStatus": {"status": "OPEN", "score": {"hyScoreV2": 500}}
+        }
+      ]
+    }
+  }
+]
